@@ -5,15 +5,19 @@ import "./App.css";
 import UserInput from "./UserInput/UserInput";
 import UserOutput from "./UserOutput/UserOutput";
 
+import Validation from "./Validation/Validation";
+import Char from "./Char/Char";
+
 class App extends Component {
   state = {
     persons: [
       { id: "max-28", name: "Max", age: 28 },
-      { id: "man-29",name: "Manu", age: 29 },
-      { id: "ste-26",name: "Stephanie", age: 26 }
+      { id: "man-29", name: "Manu", age: 29 },
+      { id: "ste-26", name: "Stephanie", age: 26 }
     ],
     username: "super Name",
-    showPersons: true
+    showPersons: true,
+    userInput: ""
   };
 
   //   switchNameHandler = () => {
@@ -55,6 +59,19 @@ class App extends Component {
 
   userNameChangedHandler = event => {
     this.setState({ username: event.target.value });
+  };
+
+  inputChangedHandler = event => {
+    this.setState({ userInput: event.target.value });
+  };
+
+  deleteCharHandler = index => {
+    const inputText = [...this.state.userInput];
+    inputText.splice(index, 1);
+
+    const updatedText = inputText.join("");
+    console.log(updatedText);
+    this.setState({ userInput: updatedText });
   };
 
   render() {
@@ -102,6 +119,12 @@ class App extends Component {
     //         age={this.state.persons[2].age}
     //       />{" "}
 
+    const charList = [...this.state.userInput].map((el, ix) => {
+      return (
+        <Char letter={el} key={ix} clicked={() => this.deleteCharHandler(ix)} />
+      );
+    });
+
     return (
       <div className="App">
         <h1> React test application </h1>
@@ -110,6 +133,7 @@ class App extends Component {
         </button>
         {persons}
         <br />
+        <h2>Assignment One</h2>
         <UserInput
           changed={this.userNameChangedHandler}
           currentName={this.state.username}
@@ -117,6 +141,17 @@ class App extends Component {
         <UserOutput name="What" />
         <UserOutput name="Who" />
         <UserOutput name={this.state.username} />
+
+        <h2>Assignment Two</h2>
+        <input
+          type="text"
+          onChange={this.inputChangedHandler}
+          value={this.state.userInput}
+        />
+        <p>{this.state.userInput}</p>
+        <Validation inputLength={this.state.userInput.length} />
+        <br />
+        {charList}
       </div>
     );
   }
