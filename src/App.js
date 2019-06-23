@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Person from "./Person/Person";
 import "./App.css";
+import Radium, { StyleRoot } from "radium";
 
 import UserInput from "./UserInput/UserInput";
 import UserOutput from "./UserOutput/UserOutput";
@@ -80,7 +81,12 @@ class App extends Component {
       color: "white",
       font: "inherit",
       border: "1x solid blue",
-      padding: "8px"
+      padding: "8px",
+      cursor: "pointer",
+      ":hover": {
+        backgroundColor: "lightgreen",
+        color: "black"
+      }
     };
 
     let persons = null;
@@ -102,6 +108,10 @@ class App extends Component {
         </div>
       );
       style.backgroundColor = "red";
+      style[":hover"] = {
+        backgroundColor: "salmon",
+        color: "black"
+      };
     }
 
     // <Person
@@ -127,36 +137,48 @@ class App extends Component {
       );
     });
 
-    return (
-      <div className="App">
-        <h1> React test application </h1>
-        <button style={style} onClick={this.togglePersonsHandler}>
-          Toggle Persons
-        </button>
-        {persons}
-        <br />
-        <h2>Assignment One</h2>
-        <UserInput
-          changed={this.userNameChangedHandler}
-          currentName={this.state.username}
-        />
-        <UserOutput name="What" />
-        <UserOutput name="Who" />
-        <UserOutput name={this.state.username} />
+    let classes = [];
+    if (this.state.persons.length <= 2) {
+      classes.push("red");
+    }
+    if (this.state.persons.length <= 1) {
+      classes.push("bold");
+    }
+    classes = classes.join(" ");
 
-        <h2>Assignment Two</h2>
-        <input
-          type="text"
-          onChange={this.inputChangedHandler}
-          value={this.state.userInput}
-        />
-        <p>{this.state.userInput}</p>
-        <Validation inputLength={this.state.userInput.length} />
-        <br />
-        {charList}
-      </div>
+    return (
+      <StyleRoot>
+        <div className="App">
+          <h1> React test application </h1>
+          <p className={classes}>This is really working!</p>
+          <button style={style} onClick={this.togglePersonsHandler}>
+            Toggle Persons
+          </button>
+          {persons}
+          <br />
+          <h2>Assignment One</h2>
+          <UserInput
+            changed={this.userNameChangedHandler}
+            currentName={this.state.username}
+          />
+          <UserOutput name="What" />
+          <UserOutput name="Who" />
+          <UserOutput name={this.state.username} />
+
+          <h2>Assignment Two</h2>
+          <input
+            type="text"
+            onChange={this.inputChangedHandler}
+            value={this.state.userInput}
+          />
+          <p>{this.state.userInput}</p>
+          <Validation inputLength={this.state.userInput.length} />
+          <br />
+          {charList}
+        </div>
+      </StyleRoot>
     );
   }
 }
 
-export default App;
+export default Radium(App);
