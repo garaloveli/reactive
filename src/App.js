@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Person from "./Person/Person";
 import "./App.css";
-import Radium, { StyleRoot } from "radium";
+// import Radium, { StyleRoot } from "radium";
 
 import UserInput from "./UserInput/UserInput";
 import UserOutput from "./UserOutput/UserOutput";
@@ -147,7 +147,7 @@ class App extends Component {
     classes = classes.join(" ");
 
     return (
-      <StyleRoot>
+    //   <StyleRoot>
         <div className="App">
           <h1> React test application </h1>
           <p className={classes}>This is really working!</p>
@@ -176,9 +176,10 @@ class App extends Component {
           <br />
           {charList}
         </div>
-      </StyleRoot>
+    //   </StyleRoot>
     );
   }
 }
 
-export default Radium(App);
+export default App;
+// export default Radium(App);
