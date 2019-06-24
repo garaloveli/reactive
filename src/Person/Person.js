@@ -1,19 +1,19 @@
 import React from 'react';
 // import Radium from 'radium';
 
-import './Person.css';
+import PerClasses from './Person.css';
 
 const person = (props) => {
 
-    const style = {
-        '@media (min-width: 500px)':{
-            width: '450px'
-        }
-    };
+    // const style = {
+    //     '@media (min-width: 500px)':{
+    //         width: '450px'
+    //     }
+    // };
 
     return (
         // <div className="Person" style={style}>
-        <div className="Person">
+        <div className={PerClasses.Person}>
             <p onClick={props.click}>I'm {props.name} and I am {props.age}</p>
             <p>{props.children}</p>
             <input type="text" onChange={props.change} value={props.name} />

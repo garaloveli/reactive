@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import Person from "./Person/Person";
-import "./App.css";
+import AppClasses from "./App.css";
 // import Radium, { StyleRoot } from "radium";
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 import UserInput from "./UserInput/UserInput";
 import UserOutput from "./UserOutput/UserOutput";
@@ -17,7 +18,7 @@ class App extends Component {
       { id: "ste-26", name: "Stephanie", age: 26 }
     ],
     username: "super Name",
-    showPersons: true,
+    showPersons: false,
     userInput: ""
   };
 
@@ -76,38 +77,41 @@ class App extends Component {
   };
 
   render() {
-    const style = {
-      backgroundColor: "green",
-      color: "white",
-      font: "inherit",
-      border: "1x solid blue",
-      padding: "8px",
-      cursor: "pointer",
-    //   ":hover": {
-    //     backgroundColor: "lightgreen",
-    //     color: "black"
-    //   }
-    };
+    // const style = {
+    //   backgroundColor: "green",
+    //   color: "white",
+    //   font: "inherit",
+    //   border: "1x solid blue",
+    //   padding: "8px",
+    //   cursor: "pointer",
+    // //   ":hover": {
+    // //     backgroundColor: "lightgreen",
+    // //     color: "black"
+    // //   }
+    // };
 
     let persons = null;
+    let btnClass = null;
 
     if (this.state.showPersons) {
       persons = (
         <div>
           {this.state.persons.map((person, index) => {
             return (
-              <Person
-                click={() => this.deletePersonHandler(index)}
-                name={person.name}
-                age={person.age}
-                key={person.id}
-                changed={event => this.nameChangedHandler(event, person.id)}
-              />
+              <ErrorBoundary
+                key={person.id}>
+                  <Person
+                    click={() => this.deletePersonHandler(index)}
+                    name={person.name}
+                    age={person.age}
+                    changed={event => this.nameChangedHandler(event, person.id)}
+                  />
+              </ErrorBoundary>
             );
           })}
         </div>
       );
-      style.backgroundColor = "red";
+    //   style.backgroundColor = "red";
     //   style[":hover"] = {
     //     backgroundColor: "salmon",
     //     color: "black"
@@ -139,19 +143,23 @@ class App extends Component {
 
     let classes = [];
     if (this.state.persons.length <= 2) {
-      classes.push("red");
+    //   classes.push("red");
+        classes.push(AppClasses.red);        
     }
     if (this.state.persons.length <= 1) {
-      classes.push("bold");
+    //   classes.push("bold");
+        classes.push(AppClasses.bold);
     }
     classes = classes.join(" ");
 
     return (
     //   <StyleRoot>
-        <div className="App">
+        <div className={AppClasses.App}>
           <h1> React test application </h1>
           <p className={classes}>This is really working!</p>
-          <button style={style} onClick={this.togglePersonsHandler}>
+          <button 
+            // style={style} 
+            onClick={this.togglePersonsHandler}>
             Toggle Persons
           </button>
           {persons}
